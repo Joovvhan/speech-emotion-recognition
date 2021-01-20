@@ -1,0 +1,3 @@
+[submodule "URDU-Dataset"]
+	path = URDU-Dataset
+	url = https://github.com/siddiquelatif/URDU-Dataset.git
