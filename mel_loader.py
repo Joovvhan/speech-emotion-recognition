@@ -92,7 +92,7 @@ def load_wav(file, save_resampled=False):
 #             int_y = (y * 2 ** 15).astype(np.int16)
             wavfile.write(resampled_file, 16000, y)
         
-    print(file, max(y), min(y))
+    # print(file, max(y), min(y))
 
     return y
 

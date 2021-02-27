@@ -18,7 +18,9 @@ if __name__ == '__main__':
     json_dict = json.load(open('config.json'))
     model_params_dict = json_dict['model_config']
 
-    train_loader, valid_loader = get_data_loader()
+    batch_size = 32
+
+    train_loader, valid_loader = get_data_loader(batch_size)
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
