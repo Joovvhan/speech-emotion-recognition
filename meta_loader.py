@@ -375,6 +375,7 @@ def get_meta(meta_type):
         meta = list(map(get_eekk_meta, eekk_files))
     elif meta_type == 'AESDD':
         aesdd_files = sorted(glob('Acted Emotional Speech Dynamic Database/*/*.wav'))
+        aesdd_files.remove('Acted Emotional Speech Dynamic Database/sadness/s05 (3).wav')
         meta = list(map(get_aesdd_meta, aesdd_files))
     elif meta_type == 'EMOV':
         emov_files = sorted(glob('EmoV-DB_sorted/*/*/*.wav'))
