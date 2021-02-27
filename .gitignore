@@ -1,5 +1,7 @@
 .ipynb_checkpoints/
 __pycache__/
+runs/
+figs/
 
 ANAD
 EEKK

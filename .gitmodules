@@ -1,3 +1,6 @@
 [submodule "URDU-Dataset"]
 	path = URDU-Dataset
 	url = https://github.com/siddiquelatif/URDU-Dataset.git
+[submodule "tacotron2"]
+	path = tacotron2
+	url = https://github.com/NVIDIA/tacotron2.git
