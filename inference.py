@@ -75,8 +75,8 @@ if __name__ == '__main__':
         # acc_list.append(torch.mean((torch.argmax(pred_tensor.cpu(), dim=-1) == batched_emo).float()))
 
         acc = (torch.argmax(pred_tensor.cpu(), dim=-1) == batched_emo).float()
-        accs = torch.cat((accs, h), axis=0)
-        
+        accs = torch.cat((accs, acc), axis=0)
+
         infos.append(info)
 
     np.savez('infer.npz', hs=hs, accs=accs, infos=infos)
