@@ -24,3 +24,5 @@ KoreanEmotionSpeech
 EmoV-DB_sorted
 
 *.zip
+*.npz
+nohup.out

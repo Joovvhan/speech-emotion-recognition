@@ -96,11 +96,11 @@ def load_wav(file, save_resampled=False):
 
     return y
 
-def split_meta(meta_list, ratio=0.05):
+def split_meta(meta_list, ratio=0.05, seed=12345):
 
     num_test = int(len(meta_list) * ratio)
     
-    random.shuffle(meta_list)
+    random.Random(seed).shuffle(meta_list)
     
     meta_valid = meta_list[:num_test]
     meta_train = meta_list[num_test:]
@@ -111,12 +111,15 @@ def collate_function(meta):
 
     mels = list()
     emos = list()
+    strs = list()
 
     for m in meta:
         # 'ANAD/1sec_segmented_part3/1sec_segmented_part3/V7_1 (140).wav',
         # 'ANAD',
         # 'anger',
         # 0.09532879818594105
+
+        strs.append((m[0], m[1], m[2]))
 
         y = load_wav(m[0])
         mel = MEL_LOADER.get_mel(y, 16000) # [80, 153]
@@ -125,7 +128,7 @@ def collate_function(meta):
         mels.append(mel.T) # [T, 80]
         emos.append(e)
 
-    return pad_sequence(mels, batch_first=True).unsqueeze(1), torch.tensor(emos)
+    return pad_sequence(mels, batch_first=True).unsqueeze(1), torch.tensor(emos), strs
 
 def get_meta_train_valid(json_file='hparams.json'):
     
