@@ -15,7 +15,7 @@ import numpy as np
 import os
 import json
 
-from train import save_model, load_model
+from train import load_model
 
 if __name__ == '__main__':
 
@@ -42,8 +42,6 @@ if __name__ == '__main__':
     elif args.model == 'GST-RNN-Mod':
         model = ReferenceEncoderMod(**model_params_dict)
     model = model.to(device)
-    optimizer = Adam(model.parameters(), lr=0.0001)
-    loss_func = nn.NLLLoss()
 
     step = 0
 
@@ -51,6 +49,9 @@ if __name__ == '__main__':
 
     run_path = os.path.join('runs', args.run)
     assert os.path.isdir(run_path), f'Invalid path {run_path}'
+    train_writer = SummaryWriter(run_path)
+    optimizer = Adam(model.parameters(), lr=0.0001)
+    step = load_model(model, optimizer, train_writer.logdir)
 
     model.eval()
 
@@ -72,11 +73,13 @@ if __name__ == '__main__':
         h = h.detach().cpu()
         hs = torch.cat((hs, h), axis=0)
 
-        # acc_list.append(torch.mean((torch.argmax(pred_tensor.cpu(), dim=-1) == batched_emo).float()))
+        acc_list.append(torch.mean((torch.argmax(pred_tensor.cpu(), dim=-1) == batched_emo).float()))
 
         acc = (torch.argmax(pred_tensor.cpu(), dim=-1) == batched_emo).float()
         accs = torch.cat((accs, acc), axis=0)
 
         infos += info
+
+    print(f'[Eval] Acc: {np.mean(acc_list):2.3f}')
 
     np.savez('infer.npz', hs=hs, accs=accs, infos=infos)
